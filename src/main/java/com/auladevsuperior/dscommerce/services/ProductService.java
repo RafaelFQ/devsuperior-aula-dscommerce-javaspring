@@ -1,6 +1,7 @@
 package com.auladevsuperior.dscommerce.services;
 
 import com.auladevsuperior.dscommerce.dto.ProductDTO;
+import com.auladevsuperior.dscommerce.dto.ProductMinDTO;
 import com.auladevsuperior.dscommerce.entities.Product;
 import com.auladevsuperior.dscommerce.repositories.ProductRepository;
 import com.auladevsuperior.dscommerce.services.exceptions.DatabaseException;
@@ -29,9 +30,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable){
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable){
         Page<Product> result = repository.searchByName(name, pageable);
-        return result.map(x->new ProductDTO(x));
+        return result.map(x->new ProductMinDTO(x));
     }
 
     @Transactional
@@ -66,7 +67,6 @@ public class ProductService {
             throw new DatabaseException("Falha de integridade referencial");
         }
     }
-
 
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
         entity.setName(dto.getName());
